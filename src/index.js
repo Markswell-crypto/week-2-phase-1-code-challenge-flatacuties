@@ -1,6 +1,15 @@
 // Your code here
+//Using the DOMContentLoaded event listener to ensure that the code is executed after the DOM has loaded.
+//Using the getElementById() function to get references to DOM elements.
+//Using the parseInt() function to convert string values to integers.
+//Using the fetch() API to make HTTP requests to the server.
+//Using the Promise.all() method to wait for all asynchronous operations to complete before executing the next step.
+
 document.addEventListener("DOMContentLoaded", (e) => {
   const navBar = document.getElementById("character-bar");
+
+  //getCharacterDetails(): This function fetches character data from the server and displays it in the user interface.
+
   function getCharacterDetails() {
     const input = document.querySelector('input#votes');
     console.log(input.value);
@@ -25,7 +34,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
             const currentVotes = document.getElementById("vote-count");
             currentVotes.innerText = character.votes;
 
-            // form for submitting votes ,sets votes input value to be displayed
+ // form for submitting votes ,sets votes input value to be displayed
             const form = document.getElementById("votes-form");
             form.addEventListener("submit", (e) => {
               e.preventDefault();
@@ -47,7 +56,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
               });
             });
           });
-          // Adding a new character using POST
+ // Adding a new character using POST
           
           }); 
           const newCharacter = document.getElementById("character-form");
@@ -56,7 +65,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
             Promise.all([getCharacterDetails()]).then(() => {
               const characterView = document.getElementById('character-form');
               characterView.addEventListener("click", (e) => {
-                // ...
               });
             const newCharacterName = document.getElementById("name2").value;
             const newCharacterImage =
@@ -90,7 +98,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                   id: `${featuredCharacter.id}`,
                   votes: `${newVoteCount}`
                 };
-                //update clicked votes without refresh because it's using old data
+    //update clicked votes without refresh because it's using old data
                 updateVotesToDB(updateData);
                 updateHeaderDataAfterVotesChange(newVoteCount);
                 event.target.reset();
