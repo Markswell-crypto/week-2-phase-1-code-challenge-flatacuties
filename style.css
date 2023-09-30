@@ -1,22 +1,24 @@
+/* The document styling */
+
 html {
     font-family:sans-serif;
   }
   
   html, body {
-    margin: 10px;
-    padding: 5px;
+    margin: 8px;
+    padding: 3px;
   }
   
   .logo{
     text-align: center;
-    background-color: rgb(49, 109, 179);
-    color: white;
+    background-color: rgb(23, 61, 105);
+    color: rgb(199, 146, 146);
     padding: 0.5em;
   }
   
   #character-bar {
     height: 15vh;
-    background: rgb(49, 109, 179);
+    background-color: rgb(23, 61, 105);
     display: flex;
     justify-content: space-around;
     align-items: center;
