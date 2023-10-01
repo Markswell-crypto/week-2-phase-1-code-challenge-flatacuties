@@ -41,16 +41,25 @@ html {
     height: 550px;
     padding: 30px;
     font-size: 24px;
-    border: dotted;
+    border: double;
     text-align: center;
+  }
+
+  .characterAdd{
+    display: flexbox;
+    height: auto;
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+    border-radius: 2em;
   }
   
   input[type="submit"], button {
-    background-color: rgb(49, 109, 179);
+    background-color: rgb(7, 18, 32);
     color: white;
     font-size: 18px;
-    border-radius: 6px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    border-radius: 5px;
+    font-family:sans-serif
   }
   
   input[type="text"] {

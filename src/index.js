@@ -1,4 +1,3 @@
-// Your code here
 //Using the DOMContentLoaded event listener to ensure that the code is executed after the DOM has loaded.
 //Using the getElementById() function to get references to DOM elements.
 //Using the parseInt() function to convert string values to integers.
@@ -41,14 +40,14 @@ document.addEventListener("DOMContentLoaded", (e) => {
               const votes = document.getElementById("votes").value;
               if (isNaN(votes) === false) {
                 currentVotes.innerText = votes;
-                // form.reset();
+// form.reset();
               } else {
                 alert("Votes can only be in numbers");
                 form.reset();
               }
               console.log(votes);
 
-              // resets vote count to zero
+// resets vote count to zero
               const resetButton = document.getElementById("reset-btn");
               resetButton.addEventListener("click", (e) => {
                 e.preventDefault();
