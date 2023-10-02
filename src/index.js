@@ -62,12 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const nameInput = document.getElementById("name2");
       const imageUrlInput = document.getElementById("image-url");
   
-// checking the input values
-  if (!nameInput.value || !imageUrlInput.value) {
-    alert("Name and Image URL are required fields.");
-    return;
-  }
-  
 // Creating an object using the character details
   const newCharacter = {
     name: nameInput.value,
@@ -76,26 +70,25 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   
   // Adding a new character to the character bar
-  const characterView = document.createElement("span");
-  characterView.innerText = newCharacter.name;
-  characterView.style.cursor = "pointer";
-  navBar.appendChild(characterView);
-  
-  // depopulating the input boxes
-  nameInput.value = "";
-  imageUrlInput.value = "";
-  
-// Adding an event listener to new character
-  characterView.addEventListener("click", () => {
-    const characterName = document.getElementById("name");
-    characterName.innerText = newCharacter.name;
-    const characterImage = document.getElementById("image");
-    characterImage.src = newCharacter.image;
-    const currentVotes = document.getElementById("vote-count");
-    currentVotes.innerText = newCharacter.votes;
-  });
+  function updateNewCharacter() {
+    return fetch("http://localhost:3000/characters", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: nameInput.value,
+        image: imageUrlInput.value,
+        votes: 0,
+      }),
+    });
+  }
+  updateNewCharacter();
     });
   
  //Invoking the getCharacterDetails() function to get character details
     getCharacterDetails();
   });
+
+  
