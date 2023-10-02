@@ -49,10 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentVoteCount = parseInt(currentVotes.innerText);
     currentVotes.innerText = currentVoteCount + newVotes;
   } else {
-    alert("Votes can only be in numbers");
-  }
-  
-  // Form Reset
+    alert("Invalid Input");
+  } 
+// Form Reset
   votesForm.reset();
     });
   
@@ -63,13 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const nameInput = document.getElementById("name2");
       const imageUrlInput = document.getElementById("image-url");
   
-  // checking the input values
+// checking the input values
   if (!nameInput.value || !imageUrlInput.value) {
     alert("Name and Image URL are required fields.");
     return;
   }
   
-  // Creating an object using the character details
+// Creating an object using the character details
   const newCharacter = {
     name: nameInput.value,
     image: imageUrlInput.value,
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   characterView.style.cursor = "pointer";
   navBar.appendChild(characterView);
   
-  //depopulating the input boxes
+  // depopulating the input boxes
   nameInput.value = "";
   imageUrlInput.value = "";
   
