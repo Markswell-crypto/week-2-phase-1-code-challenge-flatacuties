@@ -1,155 +1,146 @@
-// Using the DOMContentLoaded event listener to ensure that the code is executed after the DOM has loaded.
-// Using the getElementById() function to get references to DOM elements.
-// Using the parseInt() function to convert string values to integers.
-// Using the fetch() API to make HTTP requests to the server.
-// Using the Promise.all() method to wait for all asynchronous operations to complete before executing the next step.
-
+//Using the DOMContentLoaded event listener to ensure that the code is executed after the DOM has loaded.
+//Using the getElementById() function to get references to DOM elements.
+//Using the parseInt() function to convert string values to integers.
+//Using the fetch() API to make HTTP requests to the server.
+//Using the Promise.all() method to wait for all asynchronous operations to complete before executing the next step.
 document.addEventListener("DOMContentLoaded", (e) => {
-  const navBar = document.getElementById("character-bar");
 
-  //getanimalsDetails(): This function fetches character data from the server and displays it in the user interface.
-
-  function getCharacterDetails() {
-    const input = document.querySelector('input#votes');
-   // console.log(input.value);
-    return fetch(`http://localhost:3000/characters${input.value}`)
-      .then((res) => res.json())
-      .then((characters) => {  
-//console.log(characters);
-        characters.forEach((character) => {
-          const characterView = document.createElement("span");
-          navBar.appendChild(characterView);
-          characterView.id = character.id;
-          characterView.innerText = character.name;
-          characterView.style.cursor = "pointer";
-
-//Event listener to view the character details
-          characterView.addEventListener("click", (e) => {
-            e.preventDefault();
-            const characterName = document.getElementById("name");
-            characterName.innerText = character.name;
-            const characterImage = document.getElementById("image");
-            characterImage.src = character.image;
-
-            const currentVotes = document.getElementById("vote-count");
-            currentVotes.innerText = character.votes;
-
- // form for submitting votes ,sets votes input value to be displayed
-            const form = document.getElementById("votes-form");
-            form.addEventListener("submit", (e) => {
+    const navBar = document.getElementById("character-bar");
+//getCharacterDetails(): This function fetches character data from the server and displays it in the user interface.
+    async function getCharacterDetails() {
+      const input = document.querySelector('input#votes');
+      console.log(input.value);
+      return fetch(`http://localhost:3000/characters${input.value}`)
+        .then((res) => res.json())
+        .then((characters) => {  
+        console.log(characters);
+          characters.forEach((character) => {
+            const characterView = document.createElement("span");
+            navBar.appendChild(characterView);
+            characterView.id = character.id;
+            characterView.innerText = character.name;
+            characterView.style.cursor = "pointer";
+            characterView.addEventListener("click", (e) => {
               e.preventDefault();
-              const votes = document.getElementById("votes").value;
-              if (isNaN(votes) === false) {
-                currentVotes.innerText = votes;
-// form.reset();
-              } else {
-                alert("Votes can only be in numbers");
-                form.reset();
-              }
-              console.log(votes);
-
-// resets vote count to zero
-              const resetButton = document.getElementById("reset-btn");
-              resetButton.addEventListener("click", (e) => {
-                e.preventDefault();
-                currentVotes.innerText = 0;
-              });
-            });
-          });       
-          }); 
-
- //Bonus part
- // Adding a new character using POST
-   
-          const newCharacter = document.getElementById("character-form");
-          newCharacter.addEventListener("submit", (e) => {
-            e.preventDefault();
-            Promise.all([getCharacterDetails()]).then(() => {
-              const characterView = document.getElementById('character-form');
-              characterView.addEventListener("click", (e) => { });
-
-            const newCharacterName = document.getElementById("name2").value;
-            const newCharacterImage = document.getElementById("image-url").value;
-            const addedCharacter = document.createElement("span");
-           
-            addedCharacter.style.cursor = "pointer";
-            addedCharacter.innerText = newCharacterName;
-            navBar.appendChild(addedCharacter);
-            addedCharacter.addEventListener("click", () => {
-             
-            const newCharacterTitle = document.getElementById("name");
-              newCharacterTitle.innerText = newCharacterName;
-              const addCharacterImage = document.getElementById("image");
-              addCharacterImage.src = newCharacterImage;
-              const newCharactersCurrentVotes =
-            document.getElementById("vote-count");
-              newCharactersCurrentVotes.innerText = 0;
-              const newCharacterCurrentVotes =
-                document.getElementById("vote-count");
-              newCharacterCurrentVotes.innerText = 0;
-            
-              function addVotes(event) {
-                event.preventDefault();
-                let voteInput = document.getElementById("votes").value;
-                voteInput === ""
-                  ? (voteInput = 1)
-                  : (voteInput = document.getElementById("votes").value);
-                let initialVotesCount = parseInt(detailBoxVotes.textContent, 0);
-                let newVoteCount = initialVotesCount + parseInt(voteInput, 0);
-                detailBoxVotes.textContent = newVoteCount;
-                let updateData = {
-                  id: `${featuredCharacter.id}`,
-                  votes: `${newVoteCount}`
-                };
-    //update clicked votes without refresh because it's using old data
-                updateVotesToDB(updateData);
-                updateHeaderDataAfterVotesChange(newVoteCount);
-                event.target.reset();
-              }
-              
-              function updateHeaderDataAfterVotesChange(newVoteCount) {
-                return (featuredCharacter.votes = newVoteCount);
-              }
-              
-             
+              const characterName = document.getElementById("name");
+              characterName.innerText = character.name;
+              const characterImage = document.getElementById("image");
+              characterImage.src = character.image;
+              const currentVotes = document.getElementById("vote-count");
+              currentVotes.innerText = character.votes;
+   // form for submitting votes ,sets votes input value to be displayed
               const form = document.getElementById("votes-form");
               form.addEventListener("submit", (e) => {
                 e.preventDefault();
                 const votes = document.getElementById("votes").value;
                 if (isNaN(votes) === false) {
-                  newCharacterCurrentVotes.innerText = votes;
-                  form.reset();
+                  currentVotes.innerText = votes;
+                  // form.reset();
+  // form.reset();
                 } else {
                   alert("Votes can only be in numbers");
                   form.reset();
                 }
-              });
-
-              const reset = document.getElementById("reset-btn");
-              reset.addEventListener("click", (e) => {
-                e.preventDefault();
-                newCharacterCurrentVotes.innerText = 0;
-              });
-              
-              function updateNewCharacter() {
-                return fetch("http://localhost:3000/characters", {
-                  method: "POST",
-                  headers: {
-                    "content-Type": "application/json",
-                    Accept: "application/json",
-                  },
-                  body: JSON.stringify({
-                    name: newCharacterName,
-                    image: newCharacterImage,
-                    votes: 0,
-                  }),
+                console.log(votes);
+  
+                // resets vote count to zero
+  // resets vote count to zero
+                const resetButton = document.getElementById("reset-btn");
+                resetButton.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  currentVotes.innerText = 0;
                 });
-              }
-              updateNewCharacter();
+              });
+            });
+   // Adding a new character using POST
+            
+            }); 
+            const newCharacter = document.getElementById("character-form");
+            newCharacter.addEventListener("submit", (e) => {
+              e.preventDefault();
+              Promise.all([getCharacterDetails()]).then(() => {
+                const characterView = document.getElementById('character-form');
+                characterView.addEventListener("click", (e) => {
+                });
+              const newCharacterName = document.getElementById("name2").value;
+              const newCharacterImage =
+                document.getElementById("image-url").value;
+              const addedCharacter = document.createElement("span");
+              addedCharacter.style.cursor = "pointer";
+              addedCharacter.innerText = newCharacterName;
+              navBar.appendChild(addedCharacter);
+              addedCharacter.addEventListener("click", () => {
+                const newCharacterTitle = document.getElementById("name");
+                newCharacterTitle.innerText = newCharacterName;
+                const addCharacterImage = document.getElementById("image");
+                addCharacterImage.src = newCharacterImage;
+                const newCharactersCurrentVotes =
+                  document.getElementById("vote-count");
+                newCharactersCurrentVotes.innerText = 0;
+                const newCharacterCurrentVotes =
+                  document.getElementById("vote-count");
+                newCharacterCurrentVotes.innerText = 0;
+              
+                function addVotes(event) {
+                  event.preventDefault();
+                  let voteInput = document.getElementById("votes").value;
+                  voteInput === ""
+                    ? (voteInput = 1)
+                    : (voteInput = document.getElementById("votes").value);
+                  let initialVotesCount = parseInt(detailBoxVotes.textContent, 0);
+                  let newVoteCount = initialVotesCount + parseInt(voteInput, 0);
+                  detailBoxVotes.textContent = newVoteCount;
+                  let updateData = {
+                    id: `${featuredCharacter.id}`,
+                    votes: `${newVoteCount}`
+                  };
+      //update clicked votes without refresh because it's using old data
+                  updateVotesToDB(updateData);
+                  updateHeaderDataAfterVotesChange(newVoteCount);
+                  event.target.reset();
+                }
+                
+                function updateHeaderDataAfterVotesChange(newVoteCount) {
+                  return (featuredCharacter.votes = newVoteCount);
+                }
+                
+               
+                const form = document.getElementById("votes-form");
+                form.addEventListener("submit", (e) => {
+                  e.preventDefault();
+                  const votes = document.getElementById("votes").value;
+                  if (isNaN(votes) === false) {
+                    newCharacterCurrentVotes.innerText = votes;
+                    form.reset();
+                  } else {
+                    alert("Votes can only be in numbers");
+                    form.reset();
+                  }
+                });
+                const reset = document.getElementById("reset-btn");
+                reset.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  newCharacterCurrentVotes.innerText = 0;
+                });
+                function updateNewCharacter() {
+                  return fetch("http://localhost:3000/characters", {
+                    method: "POST",
+                    headers: {
+                      "content-Type": "application/json",
+                      Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                      name: newCharacterName,
+                      image: newCharacterImage,
+                      votes: 0,
+                    }),
+                  });
+                }
+                updateNewCharacter();
+              });
             });
           });
         });
-      });
-  }
-  getCharacterDetails();
-});
+    }
+    getCharacterDetails();
+  });
