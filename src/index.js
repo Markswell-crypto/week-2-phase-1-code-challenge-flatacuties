@@ -1,19 +1,18 @@
 //Using the DOMContentLoaded event listener to ensure that the code is executed after the DOM has loaded.
 //Using the getElementById() function to get references to DOM elements.
 //Using the fetch() API to make HTTP requests to the server.
-
+const navBar = document.getElementById("character-bar");
 document.addEventListener("DOMContentLoaded", () => {
-    const navBar = document.getElementById("character-bar");
-  
+    
 // Using fetch to get the character details from the API
-    function getCharacterDetails() {
+    async function getCharacterDetails() {
 // Fetch the character details from the API (adjust the API endpoint)
       return fetch("http://localhost:3000/characters")
-        .then((res) => res.json())
+        .then((response) => response.json())
         .then((characters) => {
 // Depopulating the character-bar
           navBar.innerHTML = "";
-  
+  console.log(characters)
 // Iterating over the characters to add them to the character-bar
       characters.forEach((character) => {
         const characterView = document.createElement("span");
