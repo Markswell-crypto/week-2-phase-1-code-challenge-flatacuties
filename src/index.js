@@ -1,21 +1,21 @@
-//Using the DOMContentLoaded event listener to ensure that the code is executed after the DOM has loaded.
-//Using the getElementById() function to get references to DOM elements.
-//Using the parseInt() function to convert string values to integers.
-//Using the fetch() API to make HTTP requests to the server.
-//Using the Promise.all() method to wait for all asynchronous operations to complete before executing the next step.
+// Using the DOMContentLoaded event listener to ensure that the code is executed after the DOM has loaded.
+// Using the getElementById() function to get references to DOM elements.
+// Using the parseInt() function to convert string values to integers.
+// Using the fetch() API to make HTTP requests to the server.
+// Using the Promise.all() method to wait for all asynchronous operations to complete before executing the next step.
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const navBar = document.getElementById("character-bar");
 
-  //getCharacterDetails(): This function fetches character data from the server and displays it in the user interface.
+  //getanimalsDetails(): This function fetches character data from the server and displays it in the user interface.
 
   function getCharacterDetails() {
     const input = document.querySelector('input#votes');
-    console.log(input.value);
+   // console.log(input.value);
     return fetch(`http://localhost:3000/characters${input.value}`)
       .then((res) => res.json())
       .then((characters) => {  
-      console.log(characters);
+//console.log(characters);
         characters.forEach((character) => {
           const characterView = document.createElement("span");
           navBar.appendChild(characterView);
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
           characterView.innerText = character.name;
           characterView.style.cursor = "pointer";
 
+//Event listener to view the character details
           characterView.addEventListener("click", (e) => {
             e.preventDefault();
             const characterName = document.getElementById("name");
@@ -54,31 +55,34 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 currentVotes.innerText = 0;
               });
             });
-          });
- // Adding a new character using POST
-          
+          });       
           }); 
+
+ //Bonus part
+ // Adding a new character using POST
+   
           const newCharacter = document.getElementById("character-form");
           newCharacter.addEventListener("submit", (e) => {
             e.preventDefault();
             Promise.all([getCharacterDetails()]).then(() => {
               const characterView = document.getElementById('character-form');
-              characterView.addEventListener("click", (e) => {
-              });
+              characterView.addEventListener("click", (e) => { });
+
             const newCharacterName = document.getElementById("name2").value;
-            const newCharacterImage =
-              document.getElementById("image-url").value;
+            const newCharacterImage = document.getElementById("image-url").value;
             const addedCharacter = document.createElement("span");
+           
             addedCharacter.style.cursor = "pointer";
             addedCharacter.innerText = newCharacterName;
             navBar.appendChild(addedCharacter);
             addedCharacter.addEventListener("click", () => {
-              const newCharacterTitle = document.getElementById("name");
+             
+            const newCharacterTitle = document.getElementById("name");
               newCharacterTitle.innerText = newCharacterName;
               const addCharacterImage = document.getElementById("image");
               addCharacterImage.src = newCharacterImage;
               const newCharactersCurrentVotes =
-                document.getElementById("vote-count");
+            document.getElementById("vote-count");
               newCharactersCurrentVotes.innerText = 0;
               const newCharacterCurrentVotes =
                 document.getElementById("vote-count");
@@ -120,11 +124,13 @@ document.addEventListener("DOMContentLoaded", (e) => {
                   form.reset();
                 }
               });
+
               const reset = document.getElementById("reset-btn");
               reset.addEventListener("click", (e) => {
                 e.preventDefault();
                 newCharacterCurrentVotes.innerText = 0;
               });
+              
               function updateNewCharacter() {
                 return fetch("http://localhost:3000/characters", {
                   method: "POST",
