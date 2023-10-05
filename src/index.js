@@ -11,8 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((characters) => {
 // Depopulating the character-bar
-          navBar.innerHTML = "";
-  console.log(characters)
+          navBar.innerHTML = ``;
 // Iterating over the characters to add them to the character-bar
       characters.forEach((character) => {
         const characterView = document.createElement("span");
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
           characterName.innerText = character.name;
           const characterImage = document.getElementById("image");
           characterImage.src = character.image;
-  
           const currentVotes = document.getElementById("vote-count");
           currentVotes.innerText = character.votes;
         });
@@ -51,24 +49,30 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     alert("Invalid Input");
   } 
-// Form Reset
-  votesForm.reset();
     });
-  
+// Form Reset
+let resetBtn = document.getElementById("reset-btn")
+  resetBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    votesForm.reset();
+  })  
 // Adding a submit event listener for the new character
     const characterForm = document.getElementById("character-form");
     characterForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const nameInput = document.getElementById("name2");
-      const imageUrlInput = document.getElementById("image-url");
-  
+      let name = e.target.nameInput.value ;
+      let imgUrl = e.target.imageurl.value;
+  console.log(imgUrl)
 // Creating an object using the character details
   const newCharacter = {
-    name: nameInput.value,
-    image: imageUrlInput.value,
+    name: name,
+    image: imgUrl,
     votes: 0,
   };
-  
+  if(newCharacter.name.length < 2 || newCharacter.image.length < 10){
+    alert("Invalid Animal details")
+    return
+}
   // Adding a new character to the character bar
   function updateNewCharacter() {
     return fetch("http://localhost:3000/characters", {
@@ -77,12 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({
-        name: nameInput.value,
-        image: imageUrlInput.value,
-        votes: 0,
-      }),
-    });
+      body: JSON.stringify(newCharacter),
+    })
+    .then(res => res.json())
+      .then(char => console.log(char))
   }
   updateNewCharacter();
     });
