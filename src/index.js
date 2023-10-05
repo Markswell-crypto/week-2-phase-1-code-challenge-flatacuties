@@ -51,10 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
   } 
     });
 // Form Reset
-let resetBtn = document.getElementById("reset-btn")
+let resetBtn = document.createElement("button")
+resetBtn.textContent = "Reset Votes"
+votesForm.appendChild(resetBtn)
+let votesValue = document.getElementById("vote-count")
   resetBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    votesForm.reset();
+    votesValue.textContent = "";
   })  
 // Adding a submit event listener for the new character
     const characterForm = document.getElementById("character-form");
@@ -62,7 +65,6 @@ let resetBtn = document.getElementById("reset-btn")
       e.preventDefault();
       let name = e.target.nameInput.value ;
       let imgUrl = e.target.imageurl.value;
-  console.log(imgUrl)
 // Creating an object using the character details
   const newCharacter = {
     name: name,
